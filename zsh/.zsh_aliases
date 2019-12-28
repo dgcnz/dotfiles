@@ -1,0 +1,10 @@
+alias fix_clipboard="killall pboard"
+alias catcsv='~/custom_login/pretty_csv.sh'
+alias notes='cd ~/notes'
+alias goutec='cd ~/development/utec'
+alias goliterature='cd ~/literature/books'
+alias gobooks='cd ~/literature/books'
+alias gopapers='cd ~/literature/papers'
+alias godev='cd ~/development'
+alias texhw="sh ~/scripts/texhw.sh"
+alias java_init="sh ~/scripts/java_init.sh"

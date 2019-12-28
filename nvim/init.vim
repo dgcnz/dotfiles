@@ -1,99 +1,3 @@
-    "     ____             _     
-    "    / __ )____ ______(_)____
-    "   / __  / __ `/ ___/ / ___/
-    "  / /_/ / /_/ (__  ) / /__  
-    " /_____/\__,_/____/_/\___/  
-    "                           
-
-        colo default                " colorscheme
-        set number                  " add line numbers
-
-        set encoding=utf-8
-        set nocompatible            " Disable compatibility to old-time vi
-        set showmatch               " Show matching brackets.
-        set ignorecase              " Do case insensitive matching
-        set tabstop=4               " number of columns occupied by a tab character
-        set softtabstop=4           " see multiple spaces as tabstops so <BS> does the right thing
-        set expandtab               " converts tabs to white space
-        set shiftwidth=4            " width for autoindents
-        set autoindent              " indent a new line the same amount as the line just typed
-        set smartindent             " smart indentation
-        set wrap                    " wrap lines
-        set wildmode=full           " get bash-like tab completions
-        set clipboard+=unnamedplus
-        set noshowmode
-
-
-        let mapleader = ","
-
-        " " Copy to clipboard
-        vnoremap  <leader>y  "+y
-        nnoremap  <leader>Y  "+yg_
-        nnoremap  <leader>y  "+y
-        nnoremap  <leader>yy  "+yy
-
-        " " Paste from clipboard
-        nnoremap <leader>p "+p
-        nnoremap <leader>P "+P
-        vnoremap <leader>p "+p
-        vnoremap <leader>P "+P
-
-
-
-        " Filetype compatibility
-        
-        filetype plugin indent on
-        autocmd FileType javascript :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
-        autocmd FileType vue :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
-        
-    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " => Moving around, tabs, windows and buffers
-    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-        set mouse=v                 " middle-click paste with mouse
-
-        map <C-j> <C-W>j            " Moving between windows
-        map <C-k> <C-W>k
-        map <C-h> <C-W>h
-        map <C-l> <C-W>l
-
-        map <silent> <leader><cr> :noh<cr>      " clears selections
-
-
-
-
-    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " => Snippets
-    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-    " Replace all is aliased to S.
-        nnoremap S :%s//g<Left><Left>
-
-    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " => Compilation
-    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-        function CompileSettings ()
-            write
-            belowright split
-            resize 10
-            set nonumber
-        endfunction
-
-        autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++ -std=c++17 % -o %:p:h/%:t:r.out && ./%:r.out<CR>
-        autocmd filetype c nnoremap <F8> :call CompileSettings() <bar> term gcc -std=c99 -Wall -Werror -Wextra % -o %:p:h/%:t:r.out && ./%:r.out<CR>
-        autocmd filetype java nnoremap <F8> :call CompileSettings() <bar> term javac % && java -enableassertions %:p <CR>
-        autocmd filetype python nnoremap <F8> :call CompileSettings() <bar> term python3 % <CR>
-        autocmd filetype perl nnoremap <F8> :call CompileSettings() <bar> term perl % <CR>
-        autocmd filetype sh nnoremap <F8> :call CompileSettings() <bar> term sh % <CR>
-        autocmd filetype go nnoremap <F8> :call CompileSettings() <bar> term go build % && ./%:p <CR>
-        autocmd filetype js nnoremap <F8> :call CompileSettings <bar> term node % <CR>
-        autocmd filetype markdown nnoremap <F8> :w <bar> :MarkdownPreview <CR>
-        autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex % && open %:t:r.pdf<CR><CR>
-
-
-
-
 "     ____  __            _           
 "    / __ \/ /_  ______ _(_)___  _____
 "   / /_/ / / / / / __ `/ / __ \/ ___/
@@ -108,9 +12,7 @@
 " Specifying a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'jiangmiao/auto-pairs'
 Plug 'scrooloose/nerdtree'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'itchyny/lightline.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -119,7 +21,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-
+Plug 'joshdick/onedark.vim'
+Plug 'posva/vim-vue'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Initialize plugin system
 call plug#end()
@@ -137,7 +43,7 @@ function! CocCurrentFunction()
 endfunction
 
 let g:lightline = {
-      \ 'colorscheme': 'seoul256',
+      \ 'colorscheme': 'one',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -153,10 +59,9 @@ let g:lightline = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-    let g:NERDTreeWinPos = "right"
+    autocmd VimEnter * NERDTree
+    let g:NERDTreeWinPos = "left"
     let NERDTreeShowHidden=0
-    let NERDTreeIgnore = ['\.pyc$', '__pycache__']
     let g:NERDTreeWinSize=35
     map <leader>nn :NERDTreeToggle<cr>
     map <leader>nb :NERDTreeFromBookmark<Space>
@@ -179,7 +84,8 @@ let g:lightline = {
     let g:ale_linters = {'vue': ['eslint', 'vls']}
 
     let g:ale_fixers = {
-                \   'javascript': ['standard'],
+                \   'javascript': ['eslint'],
+                \   'vue': ['eslint'],
                 \   'css': ['prettier'],
                 \   'python': ['yapf'],
                 \   'cpp': ['clang-format'],
@@ -187,7 +93,8 @@ let g:lightline = {
                 \}
 
     let g:ale_linters = {
-                \   'javascript': ['standard'],
+                \   'javascript': ['eslint'],
+                \   'vue': ['eslint'],
                 \   'css': ['prettier'],
                 \   'python': ['flake8'],
                 \   'cpp': ['clang'],
@@ -225,14 +132,118 @@ let g:lightline = {
 " => MarkdownPreview
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:mkdp_browser = 'Safari'
-let g:mkdp_port = '9999'
-let g:mkdp_auto_close = 0
+    let g:mkdp_browser = 'Safari'
+    let g:mkdp_port = '9999'
+    let g:mkdp_auto_close = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => CTRL-P (path finder)
+" => fzf (fuzzy finder)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-    nnoremap <silent> <leader>f :CtrlPMRU<cr>
 
+
+
+"     ____             _     
+"    / __ )____ ______(_)____
+"   / __  / __ `/ ___/ / ___/
+"  / /_/ / /_/ (__  ) / /__  
+" /_____/\__,_/____/_/\___/  
+"                           
+
+    colorscheme onedark         " colorscheme
+    highlight Normal guibg=NONE ctermbg=NONE
+    set number                  " add line numbers
+
+    set encoding=utf-8
+    set nocompatible            " Disable compatibility to old-time vi
+    set showmatch               " Show matching brackets.
+    set ignorecase              " Do case insensitive matching
+    set tabstop=4               " number of columns occupied by a tab character
+    set softtabstop=4           " see multiple spaces as tabstops so <BS> does the right thing
+    set expandtab               " converts tabs to white space
+    set shiftwidth=4            " width for autoindents
+    set autoindent              " indent a new line the same amount as the line just typed
+    set smartindent             " smart indentation
+    set wrap                    " wrap lines
+    set wildmode=full           " get bash-like tab completions
+    set clipboard+=unnamedplus
+    set noshowmode
+
+    " highlight current line number
+    highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE 
+    set cursorline
+
+
+    let mapleader = ","
+
+    " " Copy to clipboard
+    vnoremap  <leader>y  "+y
+    nnoremap  <leader>Y  "+yg_
+    nnoremap  <leader>y  "+y
+    nnoremap  <leader>yy  "+yy
+
+    " " Paste from clipboard
+    nnoremap <leader>p "+p
+    nnoremap <leader>P "+P
+    vnoremap <leader>p "+p
+    vnoremap <leader>P "+P
+
+    " Filetype compatibility
+    
+    filetype plugin indent on
+    autocmd FileType javascript :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
+    autocmd FileType vue :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
+    autocmd FileType javascript :setlocal noexpandtab
+    autocmd FileType vue :setlocal noexpandtab 
+    
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    set mouse=v                 " middle-click paste with mouse
+
+    map <C-j> <C-W>j            " Moving between windows
+    map <C-k> <C-W>k
+    map <C-h> <C-W>h
+    map <C-l> <C-W>l
+
+    map <silent> <leader><cr> :noh<cr>      " clears selections
+
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Snippets
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Replace all is aliased to S.
+    nnoremap S :%s//g<Left><Left>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Compilation
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    function CompileSettings ()
+        write
+        belowright split
+        resize 10
+        set nonumber
+    endfunction
+
+    autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++ -std=c++17 % -o %:p:h/%:t:r.out && ./%:r.out<CR>
+    autocmd filetype c nnoremap <F8> :call CompileSettings() <bar> term gcc -std=c99 -Wall -Werror -Wextra % -o %:p:h/%:t:r.out && ./%:r.out<CR>
+    autocmd filetype java nnoremap <F8> :call CompileSettings() <bar> term javac % && java -enableassertions %:p <CR>
+    autocmd filetype python nnoremap <F8> :call CompileSettings() <bar> term python3 % <CR>
+    autocmd filetype perl nnoremap <F8> :call CompileSettings() <bar> term perl % <CR>
+    autocmd filetype sh nnoremap <F8> :call CompileSettings() <bar> term sh % <CR>
+    autocmd filetype go nnoremap <F8> :call CompileSettings() <bar> term go build % && ./%:p <CR>
+    autocmd filetype js nnoremap <F8> :call CompileSettings <bar> term node % <CR>
+    autocmd filetype markdown nnoremap <F8> :w <bar> :MarkdownPreview <CR>
+    autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex % && open %:t:r.pdf<CR><CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Snippets
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Generate Getters and Setters in Java

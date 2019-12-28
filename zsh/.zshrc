@@ -5,17 +5,6 @@ export PATH=$HOME/bin:/usr/local/bin:$PATH
 export ZSH="/Users/dgcnz/.oh-my-zsh"
 export BAT_THEME="OneHalfDark"
 export CORENLP_HOME="/Users/dgcnz/development/resources/nlp/stanford-corenlp-full-2018-10-05"
-export DEV="/Users/dgcnz/development"
-export MD="/Users/dgcnz/development/resources/markdown-css"
-export MYPYPATH='/Users/dgcnz/Library/Python/3.7/lib/python/site-packages,/usr/local/lib/python3.7/site-packages'
-
-function pretty_csv {
-    perl -pe 's/((?<=,)|(?<=^)),/ ,/g;' "$@" | column -t -s, | less  -F -S -X -K
-}
-
-function fix_python() {
-	PATH="/usr/bin:$PATH" $*
-}
 
 function cppinit(){
     echo "Setting up the project structure..."
@@ -117,13 +106,3 @@ export LANG=en_US.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
-export PATH="/usr/local/opt/gettext/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/bin:$PATH"
-export PATH="/usr/local/opt/icu4c/sbin:$PATH"
-export PATH="/usr/local/opt/qt/bin:$PATH"
-export QT5PATH="/usr/local/Cellar/qt/5.12.3"
-export PKG_CONFIG_PATH="/usr/local/opt/openal-soft/lib/pkgconfig"
