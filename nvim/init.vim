@@ -242,8 +242,3 @@ let g:lightline = {
     autocmd filetype markdown nnoremap <F8> :w <bar> :MarkdownPreview <CR>
     autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex % && open %:t:r.pdf<CR><CR>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Snippets
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Generate Getters and Setters in Java
