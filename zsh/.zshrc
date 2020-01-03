@@ -81,10 +81,20 @@ export LANG=en_US.UTF-8
 # export ARCHFLAGS="-arch x86_64"
 
 export SSH_KEY_PATH="~/.ssh/rsa_id"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+export OPENSSL_ROOT_DIR=/usr/local/opt/openssl@1.1
+export PATH="/usr/local/sbin:$PATH"
+
+## environ for pyQT
+export PATH="/System/Library/Frameworks/Python.framework/Versions/2.7/bin:$PATH"
+export PATH="/usr/local/Cellar/qt/5.14.0/bin:$PATH"
+
+
+
 export PATH="/Users/dgcnz/.pyenv/bin:$PATH"
 
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+export PATH="/usr/local/opt/qt/bin:$PATH"
