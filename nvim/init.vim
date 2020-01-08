@@ -109,9 +109,9 @@ let g:lightline = {
 
     nmap <silent> <leader>a <Plug>(ale_next_wrap)
 
-	highlight ALEWarning ctermfg=11 guifg=Yellow
+    highlight ALEWarning ctermfg=11 guifg=Yellow
     highlight ALEError ctermfg=13 guifg=#ffa0a0 guibg=NONE ctermbg=NONE
-	highlight Warning ctermfg=11 guifg=Yellow
+    highlight Warning ctermfg=11 guifg=Yellow
     highlight Error ctermfg=13 guifg=#ffa0a0 guibg=NONE ctermbg=NONE
     highlight ErrorMsg ctermfg=13 guifg=#ffa0a0 guibg=NONE ctermbg=NONE
 
@@ -154,22 +154,40 @@ let g:lightline = {
     colorscheme onedark         " colorscheme
     highlight Normal guibg=NONE ctermbg=NONE
     set number                  " add line numbers
-
     set encoding=utf-8
     set nocompatible            " Disable compatibility to old-time vi
     set showmatch               " Show matching brackets.
     set ignorecase              " Do case insensitive matching
-    set tabstop=4               " number of columns occupied by a tab character
-    set softtabstop=4           " see multiple spaces as tabstops so <BS> does the right thing
-    set expandtab               " converts tabs to white space
-    set shiftwidth=4            " width for autoindents
-    set autoindent              " indent a new line the same amount as the line just typed
-    set smartindent             " smart indentation
-    set wrap                    " wrap lines
     set wildmode=full           " get bash-like tab completions
     set clipboard+=unnamedplus
     set noshowmode
 
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => Text, tab and indent related
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " Use spaces instead of tabs
+    set expandtab
+
+    " Be smart when using tabs ;)
+    set smarttab
+
+    " 1 tab == 4 spaces
+    set shiftwidth=4
+    set tabstop=4
+
+    " Linebreak on 500 characters
+    set lbr
+    set tw=500
+
+    set autoindent              " indent a new line the same amount as the line just typed
+    set smartindent             " smart indentation
+    set wrap "Wrap lines
+
+    
+    autocmd FileType vue setlocal ts=2 sts=2 sw=2
+    autocmd FileType javascript setlocal ts=2 sts=2 sw=2
+
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " highlight current line number
     highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE 
     set cursorline
@@ -192,10 +210,6 @@ let g:lightline = {
     " Filetype compatibility
     
     filetype plugin indent on
-    autocmd FileType javascript :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
-    autocmd FileType vue :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
-    autocmd FileType javascript :setlocal noexpandtab
-    autocmd FileType vue :setlocal noexpandtab 
     
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
