@@ -1,5 +1,5 @@
 # open terminal
-cmd + alt - t : /Applications/iTerm.app/Contents/MacOS/iTerm2 --single-instance -d 
+cmd + alt - t : /Applications/Alacritty.app/Contents/MacOS/alacritty --single-instance -d 
 
 # Resize windows
 lctrl + alt - h : \
