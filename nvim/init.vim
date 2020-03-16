@@ -59,7 +59,7 @@ let g:lightline = {
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Nerd Tree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    autocmd VimEnter * NERDTree
+    " autocmd VimEnter * NERDTree
     let g:NERDTreeWinPos = "left"
     let NERDTreeShowHidden=0
     let g:NERDTreeWinSize=35
@@ -132,16 +132,12 @@ let g:lightline = {
 " => MarkdownPreview
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-    let g:mkdp_browser = 'Safari'
-    let g:mkdp_port = '9999'
     let g:mkdp_auto_close = 0
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => fzf (fuzzy finder)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
 
 
 "     ____             _     
@@ -223,8 +219,6 @@ let g:lightline = {
     map <C-l> <C-W>l
 
     map <silent> <leader><cr> :noh<cr>      " clears selections
-
-
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
