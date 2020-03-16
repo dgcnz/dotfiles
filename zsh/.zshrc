@@ -1,5 +1,6 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
-export ZSH="/Users/dgcnz/.oh-my-zsh"
+export ZSH=$HOME/.oh-my-zsh
+export KEYS=$HOME/development/resources/keys
 
 function cppinit(){
     echo "Setting up the project structure..."
@@ -7,7 +8,6 @@ function cppinit(){
     echo "Done."
 }
 
-if [ "$TMUX" = "" ]; then tmux; fi
 
 
 
@@ -101,3 +101,7 @@ export PATH="/Users/dgcnz/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export PATH="/usr/local/opt/qt/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+if [ "$TMUX" = "" ]; then tmux; fi
