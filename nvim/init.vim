@@ -12,20 +12,27 @@
 " Specifying a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'scrooloose/nerdtree'
-Plug 'airblade/vim-gitgutter'
-Plug 'itchyny/lightline.vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'dense-analysis/ale'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dense-analysis/ale'
+Plug 'itchyny/lightline.vim'
+
+Plug 'scrooloose/nerdtree'
 Plug 'junegunn/goyo.vim'
 Plug 'tpope/vim-fugitive'
+Plug 'christoomey/vim-tmux-navigator'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+Plug 'airblade/vim-gitgutter'
+
+Plug 'vifm/vifm.vim'
+" colorschemes
+Plug 'morhetz/gruvbox'
 Plug 'joshdick/onedark.vim'
+Plug 'shinchu/lightline-gruvbox.vim'
+
+" languages
 Plug 'posva/vim-vue'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'lervag/vimtex'
 
 " Initialize plugin system
 call plug#end()
@@ -43,7 +50,7 @@ function! CocCurrentFunction()
 endfunction
 
 let g:lightline = {
-      \ 'colorscheme': 'one',
+      \ 'colorscheme': 'gruvbox',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
@@ -103,17 +110,12 @@ let g:lightline = {
 
     let g:ale_cpp_clang_options = '-std=c++17 -Wall'
 
-    let g:ale_sign_error = 'x'
-    let g:ale_sign_warning = '!'
+    " let g:ale_sign_error = 'x'
+    " let g:ale_sign_warning = '!'
     let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
     nmap <silent> <leader>a <Plug>(ale_next_wrap)
 
-    highlight ALEWarning ctermfg=11 guifg=Yellow
-    highlight ALEError ctermfg=13 guifg=#ffa0a0 guibg=NONE ctermbg=NONE
-    highlight Warning ctermfg=11 guifg=Yellow
-    highlight Error ctermfg=13 guifg=#ffa0a0 guibg=NONE ctermbg=NONE
-    highlight ErrorMsg ctermfg=13 guifg=#ffa0a0 guibg=NONE ctermbg=NONE
 
     " Only run linting when saving the file
     let g:ale_lint_on_text_changed = 'never'
@@ -146,9 +148,6 @@ let g:lightline = {
 "  / /_/ / /_/ (__  ) / /__  
 " /_____/\__,_/____/_/\___/  
 "                           
-
-    colorscheme onedark         " colorscheme
-    highlight Normal guibg=NONE ctermbg=NONE
     set number                  " add line numbers
     set encoding=utf-8
     set nocompatible            " Disable compatibility to old-time vi
@@ -157,6 +156,25 @@ let g:lightline = {
     set wildmode=full           " get bash-like tab completions
     set clipboard+=unnamedplus
     set noshowmode
+
+
+" -----------------------------
+
+    if has("termguicolors")
+        set termguicolors
+    endif
+    colorscheme gruvbox         " colorscheme
+    set background=dark
+    highlight Normal guibg=NONE ctermbg=NONE
+
+
+    highlight GruvboxRedSign  ctermfg=167 ctermbg=237 guifg=#fb4934 guibg=NONE
+    highlight GruvboxYellowSign ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
+    highlight CursorLineNr  ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
+    highlight SignColumn     guibg=None
+    "               links to CursorLine
+
+     " CocErrorSign 
 
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " => Text, tab and indent related
@@ -188,6 +206,17 @@ let g:lightline = {
     highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE 
     set cursorline
 
+    function! SyntaxItem()
+      return synIDattr(synID(line("."),col("."),1),"name")
+    endfunction
+
+function! SynStack()
+  if !exists("*synstack")
+    return
+  endif
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc
+
 
     let mapleader = ","
 
@@ -217,6 +246,14 @@ let g:lightline = {
     map <C-k> <C-W>k
     map <C-h> <C-W>h
     map <C-l> <C-W>l
+
+    " let g:tmux_navigator_no_mappings = 1
+
+    " nnoremap <silent> {Left-Mapping} :TmuxNavigateLeft<cr>
+    " nnoremap <silent> {Down-Mapping} :TmuxNavigateDown<cr>
+    " nnoremap <silent> {Up-Mapping} :TmuxNavigateUp<cr>
+    " nnoremap <silent> {Right-Mapping} :TmuxNavigateRight<cr>
+    " nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
 
     map <silent> <leader><cr> :noh<cr>      " clears selections
 
@@ -249,4 +286,11 @@ let g:lightline = {
     autocmd filetype js nnoremap <F8> :call CompileSettings <bar> term node % <CR>
     autocmd filetype markdown nnoremap <F8> :w <bar> :MarkdownPreview <CR>
     autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex % && open %:t:r.pdf<CR><CR>
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Debugging
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 
