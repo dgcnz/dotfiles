@@ -1623,9 +1623,11 @@ cbg = "#252525"
 cfg = "#ecdbb2"
 cselbg = "#413e3d"
 cselfg = "#c1c1c1"
+csel2bg = "f7ca88"
+csel2fg = "252525"
 
 
-base01 = "#252525"
+# base01 = "#252525"
 base02 = "#383838"
 base03 = "#585858"
 base04 = "#b8b8b8"
@@ -1867,14 +1869,14 @@ c.colors.tabs.odd.fg = base05
 
 # Background color of unselected odd tabs.
 #c.colors.tabs.odd.bg = base03
-c.colors.tabs.odd.bg = cbg
+c.colors.tabs.odd.bg = cselbg
 
 # Foreground color of unselected even tabs.
 c.colors.tabs.even.fg = base05
 
 # Background color of unselected even tabs.
 #c.colors.tabs.even.bg = base00
-c.colors.tabs.even.bg = cbg
+c.colors.tabs.even.bg = cselbg
 
 # Background color of pinned unselected even tabs.
 c.colors.tabs.pinned.even.bg = base0C
@@ -1902,19 +1904,19 @@ c.colors.tabs.pinned.selected.odd.fg = base0E
 
 # Foreground color of selected odd tabs.
 # c.colors.tabs.selected.odd.fg = base00
-c.colors.tabs.selected.odd.fg = cselfg
+c.colors.tabs.selected.odd.fg = base05
 
 # Background color of selected odd tabs.
 # c.colors.tabs.selected.odd.bg = base05
-c.colors.tabs.selected.odd.bg = cselbg
+c.colors.tabs.selected.odd.bg = cbg
 
 # Foreground color of selected even tabs.
 # c.colors.tabs.selected.even.fg = base00
-c.colors.tabs.selected.even.fg = cselfg
+c.colors.tabs.selected.even.fg = base05
 
 # Background color of selected even tabs.
 # c.colors.tabs.selected.even.bg = base05
-c.colors.tabs.selected.even.bg = cselbg
+c.colors.tabs.selected.even.bg = cbg
 
 # Background color for webpages if unset (or empty to use the theme's
 # color).
