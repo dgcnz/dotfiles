@@ -16,7 +16,10 @@ function cppinit(){
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 
-ZSH_THEME="lambda-gitster"
+ZSH_THEME="minimal"
+# ZSH_THEME="af-magic"
+# ZSH_THEME="gruvbox"
+# SOLARIZED_THEME="dark"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -103,5 +106,5 @@ eval "$(pyenv virtualenv-init -)"
 export PATH="/usr/local/opt/qt/bin:$PATH"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
 if [ "$TMUX" = "" ]; then tmux; fi
+[ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
