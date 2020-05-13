@@ -3,14 +3,14 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty itself.
-#env:
+# env:
   # TERM variable
   #
   # This value is used to set the `$TERM` environment variable for
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: xterm-256color
+  # TERM: screen-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -81,75 +81,6 @@ scrolling:
 # change the `it` value in terminfo when altering this setting.
 tabspaces: 8
 
-# Font configuration (changes require restart)
-font:
-  # Normal (roman) font face
-  #normal:
-    # Font family
-    #
-    # Default:
-    #   - (macOS) Menlo
-    #   - (Linux) monospace
-    #   - (Windows) Consolas
-    #family: monospace
-
-    # The `style` can be specified to pick a specific face.
-    #style: Regular
-
-  # Bold font face
-  #bold:
-    # Font family
-    #
-    # If the bold family is not specified, it will fall back to the
-    # value specified for the normal font.
-    #family: monospace
-
-    # The `style` can be specified to pick a specific face.
-    #style: Bold
-
-  # Italic font face
-  #italic:
-    # Font family
-    #
-    # If the italic family is not specified, it will fall back to the
-    # value specified for the normal font.
-    #family: monospace
-
-    # The `style` can be specified to pick a specific face.
-    #style: Italic
-
-  # Point size
-  size: 14.0
-
-  # Offset is the extra space around each character. `offset.y` can be thought of
-  # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
-  offset:
-    x: 0
-    y: 0
-
-  # Glyph offset determines the locations of the glyphs within their cells with
-  # the default being at the bottom. Increasing `x` moves the glyph to the right,
-  # increasing `y` moves the glyph upwards.
-  glyph_offset:
-    x: 0
-    y: 0
-
-  # Thin stroke font rendering (macOS only)
-  #
-  # Thin strokes are suitable for retina displays, but for non-retina screens
-  # it is recommended to set `use_thin_strokes` to `false`
-  #
-  # macOS >= 10.14.x:
-  #
-  # If the font quality on non-retina display looks bad then set
-  # `use_thin_strokes` to `true` and enable font smoothing by running the
-  # following command:
-  #   `defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO`
-  #
-  # This is a global setting and will require a log out or restart to take
-  # effect.
-  use_thin_strokes: true
-
 # Display the time it takes to redraw each frame.
 # render_timer: false
 
@@ -159,84 +90,174 @@ debug.persistent_logging: false
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
-# Colors (Tomorrow Night Bright)
+# Font configuration (changes require restart)
+font:
+  # The normal (roman) font face to use.
+  size: 16
+  normal:
+    family: Inconsolata Nerd Font Mono
+    # Style can be specified to pick a specific face.
+    style: Regular
+
+  # The bold font face
+  bold:
+    family: Inconsolata Nerd Font Mono
+    # Style can be specified to pick a specific face.
+    # style: Bold
+
+  # The italic font face
+  italic:
+    family: Inconsolata Nerd Font Mono
+    # Style can be specified to pick a specific face.
+    # style: Italic
+
+
+# -----------------------------------------------------
+# Colors (Gruvbox dark)
 colors:
   # Default colors
   primary:
-    background: '0x212121'
-    foreground: '0xcfcfc1'
+    # hard contrast: background = '#1d2021'
+    # background: '#282828'
+    background: '#252525'
+    # background: '#252525'
+    # soft contrast: background = '#32302f'
+    foreground: '#ebdbb2'
 
-    # Bright and dim foreground colors
-    #
-    # The dimmed foreground color is calculated automatically if it is not present.
-    # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
-    # is `false`, the normal foreground color will be used.
-    #dim_foreground: '0x9a9a9a'
-    #bright_foreground: '0xffffff'
-
-  # Cursor colors
-  #
-  # Colors which should be used to draw the terminal cursor. If these are unset,
-  # the cursor color will be the inverse of the cell color.
-  cursor:
-    text: '0xffffff'
-    cursor: '0xffffff'
-  
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area. If selection 
-  # background is unset, selection color will be the inverse of the cell colors. 
-  # If only text is unset the cell text color will remain the same.
-  #selection:
-  #  text: '0xeaeaea'
-  #  background: '0x404040'
-  
   # Normal colors
   normal:
-    black:   '0x000000'
-    red:     '0xc62828'
-    green:   '0x558b2f'
-    yellow:  '0xf9a825'
-    blue:    '0x1565c0'
-    magenta: '0x6a1e9a'
-    cyan:    '0x00838f'
-    white:   '0xffffff'
+    black:   '#282828'
+    red:     '#cc241d'
+    green:   '#98971a'
+    yellow:  '#d79921'
+    blue:    '#458588'
+    magenta: '#b16286'
+    cyan:    '#689d6a'
+    white:   '#a89984'
 
   # Bright colors
   bright:
-    black:   '0x545454'
-    red:     '0xef5350'
-    green:   '0x8bc34a'
-    yellow:  '0xffeb3b'
-    blue:    '0x64b5f6'
-    magenta: '0xba68c8'
-    cyan:    '0x26c6da'
-    white:   '0xffffff'
+    black:   '#928374'
+    red:     '#fb4934'
+    green:   '#b8bb26'
+    yellow:  '#fabd2f'
+    blue:    '#83a598'
+    magenta: '#d3869b'
+    cyan:    '#8ec07c'
+    white:   '#ebdbb2'
+# -----------------------------------------------------
+# Colors (Gruvbox light)
+#colors:
+#  # Default colors
+#  primary:
+#    # hard contrast: background = '#f9f5d7'
+#    background: '#fbf1c7'
+#    # soft contrast: background = '#f2e5bc'
+#    foreground: '#3c3836'
+#
+#  # Normal colors
+#  normal:
+#    black:   '#fbf1c7'
+#    red:     '#cc241d'
+#    green:   '#98971a'
+#    yellow:  '#d79921'
+#    blue:    '#458588'
+#    magenta: '#b16286'
+#    cyan:    '#689d6a'
+#    white:   '#7c6f64'
+#
+#  # Bright colors
+#  bright:
+#    black:   '#928374'
+#    red:     '#9d0006'
+#    green:   '#79740e'
+#    yellow:  '#b57614'
+#    blue:    '#076678'
+#    magenta: '#8f3f71'
+#    cyan:    '#427b58'
+#    white:   '#3c3836'
+# -----------------------------------------------------
 
-  # Dim colors
-  #
-  # If the dim colors are not set, they will be calculated automatically based
-  # on the `normal` colors.
-  #dim:
-  #  black:   '0x000000'
-  #  red:     '0x8c3336'
-  #  green:   '0x7a8530'
-  #  yellow:  '0x97822e'
-  #  blue:    '0x506d8f'
-  #  magenta: '0x80638e'
-  #  cyan:    '0x497e7a'
-  #  white:   '0x9a9a9a'
+    ## Colors (Tomorrow Night Bright)
+    #colors:
+    #  # Default colors
+    #  primary:
+    #    background: '0x212121'
+    #    foreground: '0xcfcfc1'
+    #
+    #    # Bright and dim foreground colors
+    #    #
+    #    # The dimmed foreground color is calculated automatically if it is not present.
+    #    # If the bright foreground color is not set, or `draw_bold_text_with_bright_colors`
+    #    # is `false`, the normal foreground color will be used.
+    #    #dim_foreground: '0x9a9a9a'
+    #    #bright_foreground: '0xffffff'
+    #
+    #  # Cursor colors
+    #  #
+    #  # Colors which should be used to draw the terminal cursor. If these are unset,
+    #  # the cursor color will be the inverse of the cell color.
+    #  cursor:
+    #    text: '0xffffff'
+    #    cursor: '0xffffff'
+    #  
+    #  # Selection colors
+    #  #
+    #  # Colors which should be used to draw the selection area. If selection 
+    #  # background is unset, selection color will be the inverse of the cell colors. 
+    #  # If only text is unset the cell text color will remain the same.
+    #  #selection:
+    #  #  text: '0xeaeaea'
+    #  #  background: '0x404040'
+    #  
+    #  # Normal colors
+    #  normal:
+    #    black:   '0x000000'
+    #    red:     '0xc62828'
+    #    green:   '0x558b2f'
+    #    yellow:  '0xf9a825'
+    #    blue:    '0x1565c0'
+    #    magenta: '0x6a1e9a'
+    #    cyan:    '0x00838f'
+    #    white:   '0xffffff'
+    #
+    #  # Bright colors
+    #  bright:
+    #    black:   '0x545454'
+    #    red:     '0xef5350'
+    #    green:   '0x8bc34a'
+    #    yellow:  '0xffeb3b'
+    #    blue:    '0x64b5f6'
+    #    magenta: '0xba68c8'
+    #    cyan:    '0x26c6da'
+    #    white:   '0xffffff'
+    #
+    #  # Dim colors
+    #  #
+    #  # If the dim colors are not set, they will be calculated automatically based
+    #  # on the `normal` colors.
+    #  #dim:
+    #  #  black:   '0x000000'
+    #  #  red:     '0x8c3336'
+    #  #  green:   '0x7a8530'
+    #  #  yellow:  '0x97822e'
+    #  #  blue:    '0x506d8f'
+    #  #  magenta: '0x80638e'
+    #  #  cyan:    '0x497e7a'
+    #  #  white:   '0x9a9a9a'
+    #
+    #  # Indexed Colors
+    #  #
+    #  # The indexed colors include all colors from 16 to 256.
+    #  # When these are not set, they're filled with sensible defaults.
+    #  #
+    #  # Example:
+    #  #   `- { index: 16, color: '0xff00ff' }`
+    #  #
+    #  indexed_colors: []
 
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #
-  # Example:
-  #   `- { index: 16, color: '0xff00ff' }`
-  #
-  indexed_colors: []
-
+# -----------------------------------------------------
+#
 # Visual Bell
 #
 # Any time the BEL code is received, Alacritty "rings" the visual bell. Once
