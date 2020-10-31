@@ -12,27 +12,33 @@
 " Specifying a directory for plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'sheerun/vim-polyglot'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dense-analysis/ale'
 Plug 'itchyny/lightline.vim'
 
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+" Plug 'airblade/vim-rooter'
+
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/goyo.vim'
+" Plug 'neovimhaskell/haskell-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
-Plug 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
-Plug 'vifm/vifm.vim'
+" Plug 'vifm/vifm.vim'
 " colorschemes
 Plug 'morhetz/gruvbox'
-Plug 'joshdick/onedark.vim'
-Plug 'shinchu/lightline-gruvbox.vim'
+" Plug 'joshdick/onedark.vim'
+" Plug 'shinchu/lightline-gruvbox.vim'
 
 " languages
 Plug 'posva/vim-vue'
-Plug 'lervag/vimtex'
+" Plug 'lervag/vimtex'
 
 " Initialize plugin system
 call plug#end()
@@ -53,128 +59,267 @@ let g:lightline = {
       \ 'colorscheme': 'gruvbox',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \             [ 'gitbranch', 'cocstatus', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'fugitive#head',
-      \   'cocstatus': 'coc#status',
-      \   'currentfunction': 'CocCurrentFunction'
+      \   'gitbranch': 'FugitiveHead',
+      \   'cocstatus': 'coc#status'
       \ },
       \ }
+ 
+  autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => Nerd Tree
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        " autocmd VimEnter * NERDTree
+        let g:NERDTreeWinPos = "left"
+        let NERDTreeShowHidden=0
+        let g:NERDTreeWinSize=35
+        map <leader>nn :NERDTreeToggle<cr>
+        map <leader>nb :NERDTreeFromBookmark<Space>
+        map <leader>nf :NERDTreeFind<cr>
+
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => Vimroom
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        let g:goyo_width=100
+        let g:goyo_margin_top = 2
+        let g:goyo_margin_bottom = 2
+        nnoremap <silent> <leader>z :Goyo<cr>
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Nerd Tree
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " autocmd VimEnter * NERDTree
-    let g:NERDTreeWinPos = "left"
-    let NERDTreeShowHidden=0
-    let g:NERDTreeWinSize=35
-    map <leader>nn :NERDTreeToggle<cr>
-    map <leader>nb :NERDTreeFromBookmark<Space>
-    map <leader>nf :NERDTreeFind<cr>
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => ALE (syntax checker)
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vimroom
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    let g:goyo_width=100
-    let g:goyo_margin_top = 2
-    let g:goyo_margin_bottom = 2
-    nnoremap <silent> <leader>z :Goyo<cr>
+        let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
 
+        let g:ale_fixers = {
+                    \   'javascript': ['eslint'],
+                    \   'vue': ['eslint'],
+                    \   'css': ['prettier'],
+                    \   'python': ['yapf'],
+                    \   'cpp': ['clang-format'],
+                    \   'c': ['clang-format']
+                    \}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => ALE (syntax checker)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        let g:ale_linters = {
+                    \   'javascript': ['eslint'],
+                    \   'vue': ['eslint', 'vls'],
+                    \   'css': ['prettier'],
+                    \   'python': ['flake8'],
+                    \   'cpp': ['cc'],
+                    \   'c': ['clang'],
+                    \   'haskell': ['ghc']
+                    \}
 
-    let g:ale_linter_aliases = {'vue': ['vue', 'javascript']}
-    let g:ale_linters = {'vue': ['eslint', 'vls']}
+        " let g:ale_cpp_clang_options = '-I/gs/dgcnz/development/resources/include -Wc++17-extensions -std=c++17 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING'
+        let g:ale_cpp_cc_executable = '/usr/local/bin/gcc-10'
+        " let g:ale_cpp_gcc_executable = '/usr/local/bin/gcc-10'
+        let g:ale_cpp_cc_options = '-I/Users/dgcnz/development/resources/include -std=c++17 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING'
+        " let g:ale_cpp_gcc_options = '-I/gs/dgcnz/development/resources/include -Wc++17-extensions -std=c++17 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING'
 
-    let g:ale_fixers = {
-                \   'javascript': ['eslint'],
-                \   'vue': ['eslint'],
-                \   'css': ['prettier'],
-                \   'python': ['yapf'],
-                \   'cpp': ['clang-format'],
-                \   'c': ['clang-format']
-                \}
+        " let g:ale_sign_error = 'x'
+        " let g:ale_sign_warning = '!'
+        let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 
-    let g:ale_linters = {
-                \   'javascript': ['eslint'],
-                \   'vue': ['eslint'],
-                \   'css': ['prettier'],
-                \   'python': ['flake8'],
-                \   'cpp': ['clang'],
-                \   'c': ['clang']
-                \}
-
-    let g:ale_cpp_clang_options = '-std=c++17 -Wall'
-
-    " let g:ale_sign_error = 'x'
-    " let g:ale_sign_warning = '!'
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-
-    nmap <silent> <leader>a <Plug>(ale_next_wrap)
+        nmap <silent> <leader>a <Plug>(ale_next_wrap)
 
 
-    " Only run linting when saving the file
-    let g:ale_lint_on_text_changed = 'never'
-    let g:ale_lint_on_enter = 0
-    let g:ale_fix_on_save = 1
+        " Only run linting when saving the file
+        let g:ale_lint_on_text_changed = 'never'
+        let g:ale_lint_on_enter = 0
+        let g:ale_fix_on_save = 1
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Git gutter (Git diff)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => Git gutter (Git diff)
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-    let g:gitgutter_enabled=0
-    nnoremap <silent> <leader>d :GitGutterToggle<cr>
+        let g:gitgutter_enabled=0
+        nnoremap <silent> <leader>d :GitGutterToggle<cr>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => MarkdownPreview
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => MarkdownPreview
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-    let g:mkdp_auto_close = 0
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => fzf (fuzzy finder)
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+        let g:mkdp_auto_close = 0
 
 
-"     ____             _     
-"    / __ )____ ______(_)____
-"   / __  / __ `/ ___/ / ___/
-"  / /_/ / /_/ (__  ) / /__  
-" /_____/\__,_/____/_/\___/  
-"                           
-    set number                  " add line numbers
-    set encoding=utf-8
-    set nocompatible            " Disable compatibility to old-time vi
-    set showmatch               " Show matching brackets.
-    set ignorecase              " Do case insensitive matching
-    set wildmode=full           " get bash-like tab completions
-    set clipboard+=unnamedplus
-    set noshowmode
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => fzf (fuzzy finder)
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    " This is the default extra key bindings
+    let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-x': 'split',
+      \ 'ctrl-v': 'vsplit' }
+
+    " Enable per-command history.
+    " CTRL-N and CTRL-P will be automatically bound to next-history and
+    " previous-history instead of down and up. If you don't like the change,
+    " explicitly bind the keys to down and up in your $FZF_DEFAULT_OPTS.
+    let g:fzf_history_dir = '~/.local/share/fzf-history'
+
+    map <C-f> :Files<CR>
+    map <leader>b :Buffers<CR>
+    nnoremap <leader>g :Rg<CR>
+    nnoremap <leader>t :Tags<CR>
+    nnoremap <leader>m :Marks<CR>
 
 
-" -----------------------------
+    let g:fzf_tags_command = 'ctags -R'
+    " Border color
+    let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
 
-    if has("termguicolors")
+    let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
+    let $FZF_DEFAULT_COMMAND="rg --files --hidden"
+
+
+    " Customize fzf colors to match your color scheme
+    let g:fzf_colors =
+    \ { 'fg':      ['fg', 'Normal'],
+      \ 'bg':      ['bg', 'Normal'],
+      \ 'hl':      ['fg', 'Comment'],
+      \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+      \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+      \ 'hl+':     ['fg', 'Statement'],
+      \ 'info':    ['fg', 'PreProc'],
+      \ 'border':  ['fg', 'Ignore'],
+      \ 'prompt':  ['fg', 'Conditional'],
+      \ 'pointer': ['fg', 'Exception'],
+      \ 'marker':  ['fg', 'Keyword'],
+      \ 'spinner': ['fg', 'Label'],
+      \ 'header':  ['fg', 'Comment'] }
+
+    "Get Files
+    command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}), <bang>0)
+
+
+    " Get text in files with Rg
+    command! -bang -nargs=* Rg
+      \ call fzf#vim#grep(
+      \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+      \   fzf#vim#with_preview(), <bang>0)
+
+    " Ripgrep advanced
+    function! RipgrepFzf(query, fullscreen)
+      let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+      let initial_command = printf(command_fmt, shellescape(a:query))
+      let reload_command = printf(command_fmt, '{q}')
+      let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+      call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+    endfunction
+
+    command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+
+    " Git grep
+    command! -bang -nargs=* GGrep
+      \ call fzf#vim#grep(
+      \   'git grep --line-number '.shellescape(<q-args>), 0,
+      \   fzf#vim#with_preview({'dir': systemlist('git rev-parse --show-toplevel')[0]}), <bang>0)
+
+
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => Coc
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    " if hidden is not set, TextEdit might fail.
+    set hidden
+
+    " Some servers have issues with backup files, see #649
+    set nobackup
+    set nowritebackup
+
+    " Better display for messages
+    set cmdheight=2
+
+    " You will have bad experience for diagnostic messages when it's default 4000.
+    set updatetime=300
+
+    " don't give |ins-completion-menu| messages.
+    set shortmess+=c
+
+    " always show signcolumns
+    set signcolumn=yes
+
+    " Use tab for trigger completion with characters ahead and navigate.
+    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+    inoremap <silent><expr> <TAB>
+          \ pumvisible() ? "\<C-n>" :
+          \ <SID>check_back_space() ? "\<TAB>" :
+          \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+    function! s:check_back_space() abort
+      let col = col('.') - 1
+      return !col || getline('.')[col - 1]  =~# '\s'
+    endfunction
+
+    " Use <c-space> to trigger completion.
+    inoremap <silent><expr> <c-space> coc#refresh()
+
+    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+    " Coc only does snippet and additional edit on confirm.
+    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+    " Use `[c` and `]c` to navigate diagnostics
+    nmap <silent> [c <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+    " Remap keys for gotos
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " Use K to show documentation in preview window
+    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+
+    "     ____             _     
+    "    / __ )____ ______(_)____
+    "   / __  / __ `/ ___/ / ___/
+    "  / /_/ / /_/ (__  ) / /__  
+    " /_____/\__,_/____/_/\___/  
+    "                           
+        set number                  " add line numbers
+        set encoding=utf-8
+        set nocompatible            " Disable compatibility to old-time vi
+        set showmatch               " Show matching brackets.
+        set ignorecase              " Do case insensitive matching
+        set wildmode=full           " get bash-like tab completions
+        set clipboard+=unnamedplus
+        set noshowmode
+
+
+    " -----------------------------
+    "
         set termguicolors
-    endif
-    colorscheme gruvbox         " colorscheme
-    set background=dark
-    highlight Normal guibg=NONE ctermbg=NONE
+        colorscheme gruvbox         " colorscheme
+        set background=dark
+        let g:gruvbox_contrast_dark = 'hard'
+
+        highlight Normal guibg=NONE ctermbg=NONE
 
 
-    highlight GruvboxRedSign  ctermfg=167 ctermbg=237 guifg=#fb4934 guibg=NONE
-    highlight GruvboxYellowSign ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
-    highlight CursorLineNr  ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
-    highlight SignColumn     guibg=None
-    "               links to CursorLine
-
-     " CocErrorSign 
+        highlight GruvboxRedSign  ctermfg=167 ctermbg=237 guifg=#fb4934 guibg=NONE
+        highlight GruvboxYellowSign ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
+        highlight CursorLineNr  ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
+        highlight SignColumn     guibg=None
+        "               links to CursorLine
+        "
+        " let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
+        " let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
+        " let g:haskell_enable_arrowsyntax = 1      " to enable highlighting of `proc`
+        " let g:haskell_enable_pattern_synonyms = 1 " to enable highlighting of `pattern`
+        " let g:haskell_enable_typeroles = 1        " to enable highlighting of type roles
+    " let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
+    " let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+    " let g:haskell_classic_highlighting = 1
 
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " => Text, tab and indent related
@@ -276,7 +421,8 @@ endfunc
         set nonumber
     endfunction
 
-    autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++ -std=c++17 % -o %:p:h/%:t:r.out && ./%:r.out<CR>
+    autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++-10 -I/Users/dgcnz/development/resources/include -std=c++17 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING -fsanitize=address,undefined % -o %:p:h/%:t:r.out && ./%:r.out<CR>
+    " autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++ -std=c++17 % -Wall -Werror -Wextra -o %:p:h/%:t:r.out && ./%:r.out<CR>
     autocmd filetype c nnoremap <F8> :call CompileSettings() <bar> term gcc -std=c99 -Wall -Werror -Wextra % -o %:p:h/%:t:r.out && ./%:r.out<CR>
     autocmd filetype java nnoremap <F8> :call CompileSettings() <bar> term javac % && java -enableassertions %:p <CR>
     autocmd filetype python nnoremap <F8> :call CompileSettings() <bar> term python3 % <CR>
@@ -293,4 +439,12 @@ endfunc
 " => Debugging
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Custom
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+function CP ()
+    0r ~/development/algorithms/template.cpp
+endfunction
 

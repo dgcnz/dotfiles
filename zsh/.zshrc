@@ -104,6 +104,7 @@ export PATH="/Users/dgcnz/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 export PATH="/usr/local/opt/qt/bin:$PATH"
+export DBG_MACRO_NO_WARNING
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if [ "$TMUX" = "" ]; then tmux; fi
