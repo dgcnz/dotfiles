@@ -1,0 +1,12 @@
+-std=c++17
+-DDBG_MACRO_NO_WARNING
+-I/home/dgcnz/development/resources/cpp_include
+-I/home/dgcnz/development/algorithms/cp-library
+-I/home/dgcnz/development/algorithms/ac-library
+-I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0
+-I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu
+-I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward
+-I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include
+-I/usr/local/include
+-I/usr/lib/gcc/x86_64-pc-linux-gnu/10.2.0/include-fixed
+-I/usr/include
