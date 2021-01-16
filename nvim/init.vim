@@ -4,6 +4,9 @@
 "  / ____/ / /_/ / /_/ / / / / (__  ) 
 " /_/   /_/\__,_/\__, /_/_/ /_/____/  
 "               /____/                
+"
+
+let mapleader = ","
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug initialization
@@ -17,9 +20,11 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dense-analysis/ale'
 Plug 'itchyny/lightline.vim'
+Plug 'edkolev/tmuxline.vim'
 
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'KeitaNakamura/neodark.vim'
 " Plug 'airblade/vim-rooter'
 
 Plug 'scrooloose/nerdtree'
@@ -27,18 +32,21 @@ Plug 'junegunn/goyo.vim'
 " Plug 'neovimhaskell/haskell-vim'
 Plug 'tpope/vim-fugitive'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " Plug 'airblade/vim-gitgutter'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 " Plug 'vifm/vifm.vim'
 " colorschemes
-Plug 'morhetz/gruvbox'
+" Plug 'morhetz/gruvbox'
+" Plug 'dracula/vim', {'name': 'dracula'}
+Plug 'kristijanhusak/vim-hybrid-material'
+Plug 'cocopon/lightline-hybrid.vim'
 " Plug 'joshdick/onedark.vim'
 " Plug 'shinchu/lightline-gruvbox.vim'
 
 " languages
 Plug 'posva/vim-vue'
-" Plug 'lervag/vimtex'
+Plug 'lervag/vimtex'
 
 " Initialize plugin system
 call plug#end()
@@ -56,7 +64,7 @@ function! CocCurrentFunction()
 endfunction
 
 let g:lightline = {
-      \ 'colorscheme': 'gruvbox',
+      \ 'colorscheme': 'PaperColor',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'cocstatus', 'readonly', 'filename', 'modified' ] ]
@@ -68,6 +76,14 @@ let g:lightline = {
       \ }
  
   autocmd User CocStatusChange,CocDiagnosticChange call lightline#update()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => tmuxline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if exists('$TMUX')
+	au InsertEnter * Tmuxline lightline_insert
+	au InsertLeave * Tmuxline lightline
+endif
 
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " => Nerd Tree
@@ -133,8 +149,7 @@ let g:lightline = {
         let g:ale_fix_on_save = 1
 
 
-    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-    " => Git gutter (Git diff)
+    """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" " => Git gutter (Git diff)
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
         let g:gitgutter_enabled=0
@@ -145,6 +160,7 @@ let g:lightline = {
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
         let g:mkdp_auto_close = 0
+        let g:mkdp_browser = 'google-chrome-stable'
 
 
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -155,7 +171,8 @@ let g:lightline = {
     let g:fzf_action = {
       \ 'ctrl-t': 'tab split',
       \ 'ctrl-x': 'split',
-      \ 'ctrl-v': 'vsplit' }
+      \ 'ctrl-v': 'vsplit',
+      \ 'ctrl-o': ':r !g++ -E -P -nostdinc 2> /dev/null'}
 
     " Enable per-command history.
     " CTRL-N and CTRL-P will be automatically bound to next-history and
@@ -175,7 +192,7 @@ let g:lightline = {
     let g:fzf_layout = {'up':'~90%', 'window': { 'width': 0.8, 'height': 0.8,'yoffset':0.5,'xoffset': 0.5, 'highlight': 'Todo', 'border': 'sharp' } }
 
     let $FZF_DEFAULT_OPTS = '--layout=reverse --info=inline'
-    let $FZF_DEFAULT_COMMAND="rg --files --hidden"
+    let $FZF_DEFAULT_COMMAND="rg --files --hidden --ignore-vcs"
 
 
     " Customize fzf colors to match your color scheme
@@ -280,6 +297,14 @@ let g:lightline = {
     nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+    " => VimTex
+    """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+    let g:tex_flavor = 'latex'
+    let g:vimtex_view_method = 'zathura'
+
+
     "     ____             _     
     "    / __ )____ ______(_)____
     "   / __  / __ `/ ___/ / ___/
@@ -298,18 +323,32 @@ let g:lightline = {
 
     " -----------------------------
     "
-        set termguicolors
-        colorscheme gruvbox         " colorscheme
-        set background=dark
-        let g:gruvbox_contrast_dark = 'hard'
+if has("termguicolors")     " set true colors
+    set t_8f=\[[38;2;%lu;%lu;%lum
+    set t_8b=\[[48;2;%lu;%lu;%lum
+    set termguicolors
+endif
+    "
+    set background=dark
+    colorscheme hybrid_material
+highlight Normal guibg=none
+highlight NonText guibg=none
+hi! Normal ctermbg=NONE guibg=NONE
+hi! NonText ctermbg=NONE guibg=NONE
+hi! SignColumn     guibg=None
+        " let g:enable_bold_font = 1
+        " let g:enable_italic_font = 1
+    let g:hybrid_transparent_background = 1
+        " colorscheme neodark         " colorscheme
+        "let g:gruvbox_contrast_dark = 'hard'
 
-        highlight Normal guibg=NONE ctermbg=NONE
+        " highlight Normal guibg=NONE ctermbg=NONE
 
 
-        highlight GruvboxRedSign  ctermfg=167 ctermbg=237 guifg=#fb4934 guibg=NONE
-        highlight GruvboxYellowSign ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
-        highlight CursorLineNr  ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
-        highlight SignColumn     guibg=None
+        " highlight GruvboxRedSign  ctermfg=167 ctermbg=237 guifg=#fb4934 guibg=NONE
+        " highlight GruvboxYellowSign ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
+        " highlight CursorLineNr  ctermfg=214 ctermbg=237 guifg=#fabd2f guibg=None
+        " highlight SignColumn     guibg=None
         "               links to CursorLine
         "
         " let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
@@ -348,7 +387,7 @@ let g:lightline = {
 
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " highlight current line number
-    highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE 
+    " highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE guibg=NONE guifg=NONE 
     set cursorline
 
     function! SyntaxItem()
@@ -363,7 +402,6 @@ function! SynStack()
 endfunc
 
 
-    let mapleader = ","
 
     " " Copy to clipboard
     vnoremap  <leader>y  "+y
@@ -402,7 +440,6 @@ endfunc
 
     map <silent> <leader><cr> :noh<cr>      " clears selections
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Snippets
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -421,7 +458,7 @@ endfunc
         set nonumber
     endfunction
 
-    autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++-10 -I/Users/dgcnz/development/resources/include -std=c++17 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING -fsanitize=address,undefined % -o %:p:h/%:t:r.out && ./%:r.out<CR>
+    autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++ -I$ACLIB -I$CPPLIBS -I$CPLIB -std=c++17 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING -fsanitize=address,undefined % -o %:p:h/%:t:r.out && ./%:r.out<CR>
     " autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++ -std=c++17 % -Wall -Werror -Wextra -o %:p:h/%:t:r.out && ./%:r.out<CR>
     autocmd filetype c nnoremap <F8> :call CompileSettings() <bar> term gcc -std=c99 -Wall -Werror -Wextra % -o %:p:h/%:t:r.out && ./%:r.out<CR>
     autocmd filetype java nnoremap <F8> :call CompileSettings() <bar> term javac % && java -enableassertions %:p <CR>
@@ -431,7 +468,7 @@ endfunc
     autocmd filetype go nnoremap <F8> :call CompileSettings() <bar> term go build % && ./%:p <CR>
     autocmd filetype js nnoremap <F8> :call CompileSettings <bar> term node % <CR>
     autocmd filetype markdown nnoremap <F8> :w <bar> :MarkdownPreview <CR>
-    autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex % && open %:t:r.pdf<CR><CR>
+    autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex % && zathura %:t:r.pdf<CR><CR>
 
 
 
@@ -444,7 +481,20 @@ endfunc
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
-function CP ()
-    0r ~/development/algorithms/template.cpp
+function CPInit ()
+    0r $HOME/development/algorithms/competitive-programming/template.cpp
+    let date = strftime("%Y-%m-%d")
+    execute "%s/YY-MM-DD/". date . "/g"
 endfunction
 
+function CPTemplate ()
+    :Files $HOME/development/algorithms/kactl/content
+endfunction
+
+function! CPYank ()
+    :! python3 $ACLIB/expander.py % -c --lib $ACLIB | xclip -selection clipboard
+endfunction
+
+command! CPI call CPInit()
+command! CPT call CPTemplate()
+command! CPY call CPYank()
