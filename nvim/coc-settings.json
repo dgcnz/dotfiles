@@ -1,2 +1,23 @@
 {
+"languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "args": ["-log-file=/tmp/ccls.log", "-v=1"],
+      "filetypes": ["c", "cpp", "objc", "objcpp", "hpp", "h"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".vim/", ".git/", ".hg/"],
+      "trace.server": "verbose",
+      "initializationOptions": {
+         "cache": {
+           "directory": "/tmp/ccls",
+           "retainInMemory": 1
+         },
+         "index": {
+             "initialBlacklist": ["."]
+         },
+         "clang": {
+             "extraArgs" : []
+         }
+       }
+    }
+  }
 }
