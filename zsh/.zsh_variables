@@ -1,4 +1,0 @@
-export CPLIB="$HOME/development/algorithms/cp-library"
-export ACLIB="$HOME/development/algorithms/ac-library"
-export CPPLIBS="$HOME/development/resources/cpp_include"
-export BROWSER='/usr/bin/qutebrowser'

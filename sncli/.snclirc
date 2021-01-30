@@ -7,7 +7,7 @@ cfg_sn_username = canezdiego@gmail.com
 # any shell command can be used; its stdout is used for the password
 # trailing newlines are stripped for ease of use
 # note: if both password config are given, cfg_sn_password will be used
-cfg_sn_password_eval = cat $KEYS/simplenote.key
+cfg_sn_password_eval = cat $KEYS/sncli.key
 
 # see http://urwid.org/manual/userinput.html for examples of more key combinations
 kb_edit_note = space

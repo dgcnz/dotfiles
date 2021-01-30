@@ -1,20 +1,11 @@
-alias texhw="sh ~/development/resources/scripts/texhw.sh"
-alias java_init="sh ~/development/resources/scripts/java_init.sh"
-alias goutec='cd ~/development/utec'
-alias gousp='cd ~/development/usp/2020-2'
-alias goliterature='cd ~/literature/books'
-alias gobooks='cd ~/literature/books'
-alias gopapers='cd ~/literature/papers'
-alias godev='cd ~/development'
-alias gocp='cd ~/development/algorithms/competitive-programming/'
-alias godotfiles='cd ~/development/resources/dotfiles'
-alias gonotes='cd ~/notes'
-alias notes='sncli'
-alias qute='open -a qutebrowser'
-alias test_color='sh ~/development/resources/scripts/test_color.sh'
-alias tmux='TERM=screen-256color tmux'
-alias swap_keys='sh ~/development/resources/scripts/swap_keys.sh'
-alias wacom='sh ~/development/resources/scripts/wacom_single_monitor.sh'
-alias set_monitors='sh ~/development/resources/scripts/monitor_setup.sh'
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
+#!/bin/zsh
+alias adjust_dpi="sh $SCRIPTS/adjust_dpi.sh"
+alias swap_keys="sh $SCRIPTS/swap_keys.sh"
+alias set_monitors="sh $SCRIPTS/monitor_setup.sh"
+
+alias pbcopy="xclip -selection clipboard"
+alias pbpaste="xclip -selection clipboard -o"
+
+alias godev="cd $HOME/development"
+alias gocp="cd $CPDIR"
+alias godotfiles="cd $DOTFILES"

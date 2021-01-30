@@ -8,7 +8,7 @@ export ZSH="/home/dgcnz/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="minimal"
+ZSH_THEME="theunraveler"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -45,6 +45,8 @@ ZSH_THEME="minimal"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
+# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
@@ -71,6 +73,8 @@ ZSH_THEME="minimal"
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.profile
+source $HOME/.zsh_aliases
 
 # User configuration
 
@@ -97,13 +101,5 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-source ~/.zsh_aliases
-source ~/.zsh_variables
+
 source /usr/share/nvm/init-nvm.sh
-
-export PATH="$HOME/.poetry/bin:$PATH"
-
-# Install Ruby Gems to ~/gems
-export GEM_HOME="$HOME/gems"
-export PATH="$HOME/gems/bin:$PATH"
-export PATH="$HOME/.gem/ruby/2.7.0/bin:$PATH"
