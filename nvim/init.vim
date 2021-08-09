@@ -20,7 +20,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-
+Plug 'ActivityWatch/aw-watcher-vim'
 " Aesthetics
 " Plug 'junegunn/goyo.vim'
 " Plug 'itchyny/lightline.vim'
@@ -28,7 +28,6 @@ Plug 'junegunn/fzf.vim'
 
 " Previewing, compiling
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
-
 " Colorscheme
 " Plug 'kristijanhusak/vim-hybrid-material'
 " Plug 'cocopon/lightline-hybrid.vim'
@@ -68,6 +67,7 @@ let g:ale_fixers = {
     \   'vue': ['eslint'],
     \   'css': ['prettier'],
     \   'python': ['yapf'],
+    \   'sql': ['pgformatter'],
     \   'cpp': ['clang-format'],
     \   'c': ['clang-format']
     \}
@@ -206,6 +206,10 @@ set noshowmode
 set cursorline
 set mouse=v                 " middle-click paste with mouse
 filetype plugin indent on
+" exrc allows loading local executing local rc files.
+" secure disallows the use of :autocmd, shell and write commands in local .vimrc files.
+set exrc
+set secure
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -243,7 +247,7 @@ set wrap 		    " Wrap lines
 
 autocmd FileType vue setlocal ts=2 sts=2 sw=2
 autocmd FileType javascript setlocal ts=2 sts=2 sw=2
-
+let g:mkdp_filetypes = ['markdown', 'md']
     
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
@@ -282,7 +286,7 @@ autocmd filetype java nnoremap <F8> :call CompileSettings() <bar> term javac % &
 autocmd filetype python nnoremap <F8> :call CompileSettings() <bar> term python3 % <CR>
 autocmd filetype sh nnoremap <F8> :call CompileSettings() <bar> term sh % <CR>
 autocmd filetype markdown nnoremap <F8> :w <bar> :MarkdownPreview <CR>
-autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex % && zathura %:t:r.pdf<CR><CR>
+autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex % && google-chrome-stable %:t:r.pdf<CR><CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Debugging
@@ -295,6 +299,7 @@ autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex %
 
 
 function CPInit ()
+    :AWStart
     0r $CPDIR/template.cpp
     let date = strftime("%Y-%m-%d")
     execute "%s/YY-MM-DD/". date . "/g"
@@ -305,7 +310,7 @@ function CPTemplate ()
 endfunction
 
 function! CPYank ()
-    :! python3 $ACLIB/expander.py % -c --lib $ACLIB | xclip -selection clipboard
+    :! python3 $CPLIB/expander.py % -c --lib $CPLIB | python3 $ACLIB/expander.py /dev/stdin -c --lib $ACLIB | xclip -selection clipboard
 endfunction
 
 command! CPI call CPInit()
