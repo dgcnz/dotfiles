@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+export DOTFILES="$HOME/development/resources/dotfiles"
+export SCRIPTS="$HOME/development/resources/scripts"
+export CPDIR="$HOME/development/algorithms/competitive-programming"
+export CPLIB="$HOME/development/algorithms/cp-library"
+export ACLIB="$HOME/development/algorithms/ac-library"
+export CPPINCLUDE="$HOME/development/resources/cppinclude"
+export KEYS="$HOME/.keys"
+export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
+export PATH="$PATH:$GEM_HOME/bin"
