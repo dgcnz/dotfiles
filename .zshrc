@@ -89,7 +89,10 @@ ZSH_THEME="minimal"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    git
+    compleat
+    )
 
 source $ZSH/oh-my-zsh.sh
 source $HOME/.profile
@@ -121,5 +124,8 @@ source $HOME/.zsh_aliases
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Plugin configuration
+setopt completealiases
 
 source /usr/share/nvm/init-nvm.sh

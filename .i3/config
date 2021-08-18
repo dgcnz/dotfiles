@@ -7,6 +7,9 @@ set $mod Mod4
 # Set xrandr defaults
 exec xrandr --output DisplayPort-0 --mode 1920x1080
 
+# Launch redshift at startup
+exec redshift
+
 # swap caps lock and escape
 exec_always --no-startup-id xmodmap -e "clear lock"
 exec_always --no-startup-id xmodmap -e "keycode 9 = Caps_Lock NoSymbol Caps_Lock"
