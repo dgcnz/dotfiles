@@ -299,8 +299,8 @@ autocmd fileType tex nnoremap <F8> :call CompileSettings() <bar> term pdflatex %
 
 function CPInit ()
     0r $CPDIR/template.cpp
-    let date = strftime("%Y-%m-%d")
-    execute "%s/YY-MM-DD/". date . "/g"
+    " let date = strftime("%Y-%m-%d")
+    " execute "%s/YY-MM-DD/". date . "/g"
 endfunction
 
 function CPTemplate ()
