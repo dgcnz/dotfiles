@@ -82,7 +82,7 @@ let g:ale_linters = {
     \}
 
 let g:ale_cpp_cc_executable = '/usr/bin/gcc'
-let g:ale_cpp_cc_options = '-I$CPPINCLUDE -I$CPLIB -I$ACLIB -std=c++17 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING'
+let g:ale_cpp_cc_options = '-I$CPPINCLUDE -I$CPLIB -I$ACLIB -std=c++20 -fcoroutines -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING'
 
 " let g:ale_sign_error = 'x'
 " let g:ale_sign_warning = '!'

@@ -4,6 +4,6 @@ alias pbpaste='xsel --clipboard --output'
 
 alias godev="cd $HOME/development"
 alias gocp="cd $CPDIR"
-alias goutec="cd $HOME/development/utec/2021-1"
+alias goutec="cd $HOME/development/utec/2021-2"
 alias godotfiles="cd $DOTFILES"
 alias config="/usr/bin/git --git-dir=$DOTFILES --work-tree=$HOME"

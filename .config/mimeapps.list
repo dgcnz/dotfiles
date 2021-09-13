@@ -15,8 +15,9 @@ image/png=viewnior.desktop;gpicview.desktop;
 text/plain=mousepad.desktop
 x-scheme-handler/mailto=google-chrome.desktop
 message/rfc822=userapp-Thunderbird.desktop
-application/pdf=epdfview.desktop
+application/pdf=okular.desktop
 application/x-bittorrent=deluge.desktop
+x-scheme-handler/webcal=google-chrome.desktop
 
 [Added Associations]
 x-scheme-handler/http=userapp-google-chrome.desktop;
@@ -35,6 +36,6 @@ image/png=viewnior.desktop;gpicview.desktop;
 text/plain=mousepad.desktop;
 x-scheme-handler/mailto=userapp-Thunderbird.desktop;
 message/rfc822=userapp-Thunderbird.desktop;
-application/pdf=epdfview.desktop;
+application/pdf=okularApplication_pdf.desktop;epdfview.desktop;
 application/x-bittorrent=deluge.desktop;
 application/vnd.ms-publisher=google-chrome.desktop;
