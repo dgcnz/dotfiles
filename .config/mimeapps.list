@@ -18,6 +18,7 @@ message/rfc822=userapp-Thunderbird.desktop
 application/pdf=okular.desktop
 application/x-bittorrent=deluge.desktop
 x-scheme-handler/webcal=google-chrome.desktop
+inode/directory=dolphin.desktop
 
 [Added Associations]
 x-scheme-handler/http=userapp-google-chrome.desktop;
@@ -31,11 +32,15 @@ application/x-extension-shtml=userapp-google-chrome.desktop;
 application/xhtml+xml=userapp-google-chrome.desktop;
 application/x-extension-xhtml=userapp-google-chrome.desktop;
 application/x-extension-xht=userapp-google-chrome.desktop;
-image/jpeg=viewnior.desktop;gpicview.desktop;
-image/png=viewnior.desktop;gpicview.desktop;
-text/plain=mousepad.desktop;
+image/jpeg=google-chrome.desktop;viewnior.desktop;gpicview.desktop;
+image/png=gimp.desktop;viewnior.desktop;gpicview.desktop;
+text/plain=nvim.desktop;mousepad.desktop;
 x-scheme-handler/mailto=userapp-Thunderbird.desktop;
 message/rfc822=userapp-Thunderbird.desktop;
-application/pdf=okularApplication_pdf.desktop;epdfview.desktop;
+application/pdf=google-chrome.desktop;okularApplication_pdf.desktop;epdfview.desktop;
 application/x-bittorrent=deluge.desktop;
 application/vnd.ms-publisher=google-chrome.desktop;
+application/vnd.oasis.opendocument.spreadsheet=libreoffice-calc.desktop;xarchiver.desktop;
+video/mp4=mpv.desktop;org.openshot.OpenShot.desktop;vlc.desktop;
+text/x-python=nvim.desktop;
+application/x-wine-extension-fasta=wine-extension-txt.desktop;wine-extension-ini.desktop;

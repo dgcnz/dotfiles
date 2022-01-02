@@ -82,7 +82,7 @@ let g:ale_linters = {
     \}
 
 let g:ale_cpp_cc_executable = '/usr/bin/gcc'
-let g:ale_cpp_cc_options = '-I$CPPINCLUDE -I$CPLIB -I$ACLIB -std=c++20 -fcoroutines -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING'
+let g:ale_cpp_cc_options = '-I$CPPINCLUDE -I$CPLIB -I$ACLIB -I/usr/include/eigen3 -std=c++20 -fcoroutines -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING'
 
 " let g:ale_sign_error = 'x'
 " let g:ale_sign_warning = '!'
@@ -279,7 +279,7 @@ function CompileSettings ()
 	set nonumber
 endfunction
 
-autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++ -I$ACLIB -I$CPPINCLUDE -I$CPLIB -std=c++17 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING -fsanitize=address,undefined % -o %:p:h/%:t:r.out && ./%:r.out<CR>
+autocmd filetype cpp nnoremap <F8> :call CompileSettings() <bar> term g++ -I$ACLIB -I$CPPINCLUDE -I$CPLIB -std=c++20 -Wall -Werror -Wextra -DDBG_MACRO_NO_WARNING -fsanitize=address,undefined % -o %:p:h/%:t:r.out && ./%:r.out<CR>
 autocmd filetype c nnoremap <F8> :call CompileSettings() <bar> term gcc -std=c99 -Wall -Werror -Wextra % -o %:p:h/%:t:r.out && ./%:r.out<CR>
 autocmd filetype java nnoremap <F8> :call CompileSettings() <bar> term javac % && java -enableassertions %:p <CR>
 autocmd filetype python nnoremap <F8> :call CompileSettings() <bar> term python3 % <CR>

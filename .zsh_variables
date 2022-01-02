@@ -10,3 +10,5 @@ export KEYS="$HOME/.keys"
 export GEM_HOME="$(ruby -e 'puts Gem.user_dir')"
 export PATH="$PATH:$GEM_HOME/bin"
 export PATH="$PATH:$SCRIPTS"
+export PATH=$PATH:/opt/anaconda/bin
+
