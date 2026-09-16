@@ -1,0 +1,7 @@
+theme = Pencil Light
+font-family = "SauceCodePro Nerd Font"
+font-style-bold = SemiBold
+font-size = 13
+
+# Send Option+<key> to zellij as Alt+<key>
+macos-option-as-alt = true

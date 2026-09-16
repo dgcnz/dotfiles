@@ -1,0 +1,5 @@
+// Stock zellij. Only non-default preferences live here, so this file stays
+// valid across upgrades and matches a fresh zellij on any machine.
+
+theme "pencil-light"
+show_startup_tips false
