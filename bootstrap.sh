@@ -22,14 +22,24 @@ if ! xcode-select -p >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! command -v brew >/dev/null 2>&1; then
+if [[ ! -x /opt/homebrew/bin/brew ]]; then
   step "Installing Homebrew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
+step "Adding Homebrew to zsh startup"
+brew_init='eval "$(/opt/homebrew/bin/brew shellenv zsh)"'
+touch "$HOME/.zprofile"
+if ! grep -qxF -e "$brew_init" -e 'eval "$(/opt/homebrew/bin/brew shellenv)"' "$HOME/.zprofile"; then
+  printf '\n%s\n' "$brew_init" >> "$HOME/.zprofile"
+fi
+
 step "Installing Brewfile packages"
 brew bundle install --file="$DOTFILES/Brewfile"
+
+step "Configuring Dock"
+bash "$DOTFILES/dock.sh"
 
 # Symlink so edits made on the machine land back in this repo.
 link() {
@@ -51,6 +61,15 @@ link() {
 step "Linking config"
 link zellij/config.kdl .config/zellij/config.kdl
 link ghostty/config .config/ghostty/config
+
+step "Mapping Caps Lock to Escape"
+agent="com.dgcnz.caps-to-escape"
+domain="gui/$(id -u)"
+if launchctl print "$domain/$agent" >/dev/null 2>&1; then
+  launchctl bootout "$domain/$agent"
+fi
+link "launchagents/$agent.plist" "Library/LaunchAgents/$agent.plist"
+launchctl bootstrap "$domain" "$HOME/Library/LaunchAgents/$agent.plist"
 
 # Generated rather than versioned: lfs and nbdime write their own blocks.
 step "Configuring git"
@@ -83,7 +102,6 @@ cat <<'MSG'
 ==> Done. Left for you, on purpose:
 
   Shell: add these to your shell's startup file
-    eval "$(/opt/homebrew/bin/brew shellenv)"
     export EDITOR=nvim VISUAL=nvim      # zellij's scrollback editor needs this
     export PATH="$HOME/.local/bin:$PATH"
     fzf keybindings: see `fzf --help` for your shell's init line

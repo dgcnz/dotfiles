@@ -19,6 +19,7 @@ brew "yq"
 brew "glow"
 brew "mdcat"
 brew "gum"
+brew "dockutil"
 
 # Git
 brew "gh"
@@ -52,3 +53,5 @@ cask "ghostty"
 cask "font-sauce-code-pro-nerd-font"
 cask "codex"
 cask "ngrok"
+cask "zotero"
+cask "tailscale-app"
