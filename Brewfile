@@ -49,6 +49,7 @@ brew "keith/formulae/reminders-cli"
 brew "imagemagick"
 
 # Apps
+cask "visual-studio-code"
 cask "ghostty"
 cask "font-sauce-code-pro-nerd-font"
 cask "codex"
