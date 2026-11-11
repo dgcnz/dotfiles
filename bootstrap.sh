@@ -1,115 +1,62 @@
 #!/usr/bin/env bash
-# Set up a fresh Mac from this repo.
-#
-#   git clone https://github.com/dgcnz/dotfiles.git ~/development/dotfiles
-#   ~/development/dotfiles/bootstrap.sh
-#
-# Safe to re-run: each step checks before acting, and an existing config file
-# is moved aside (never deleted) before its symlink goes in.
+# Arch/EndeavourOS setup. Run as your normal user, never with sudo.
 set -euo pipefail
 
 DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+[[ "$(uname -s)" == Linux ]] && command -v pacman >/dev/null || {
+  echo 'This bootstrap requires Arch Linux or an Arch derivative.' >&2; exit 1;
+}
+(( EUID != 0 )) || { echo 'Run as your normal user, without sudo.' >&2; exit 1; }
 
-[[ "$(uname -s)" == Darwin ]] || { echo "bootstrap.sh is macOS only" >&2; exit 1; }
+# Full upgrade avoids unsupported partial upgrades. Review pacman's prompts.
+sudo pacman -Syu --needed \
+  niri ghostty fuzzel mako swaylock swayidle xwayland-satellite \
+  xdg-desktop-portal-gtk xdg-desktop-portal-gnome \
+  pipewire wireplumber playerctl brightnessctl \
+  ttf-sourcecodepro-nerd neovim zellij fzf ripgrep bat lazygit \
+  git github-cli git-lfs base-devel wl-clipboard
 
-step() { printf '\n==> %s\n' "$*"; }
+niri validate --config "$DOTFILES/niri/config.kdl"
 
-# Xcode command line tools: git and compilers. Installs through a GUI dialog.
-if ! xcode-select -p >/dev/null 2>&1; then
-  step "Installing Xcode command line tools"
-  xcode-select --install
-  echo "Finish the installer dialog, then run this script again." >&2
-  exit 1
-fi
-
-if [[ ! -x /opt/homebrew/bin/brew ]]; then
-  step "Installing Homebrew"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-fi
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
-step "Adding Homebrew to zsh startup"
-brew_init='eval "$(/opt/homebrew/bin/brew shellenv zsh)"'
-touch "$HOME/.zprofile"
-if ! grep -qxF -e "$brew_init" -e 'eval "$(/opt/homebrew/bin/brew shellenv)"' "$HOME/.zprofile"; then
-  printf '\n%s\n' "$brew_init" >> "$HOME/.zprofile"
-fi
-
-step "Installing Brewfile packages"
-brew bundle install --file="$DOTFILES/Brewfile"
-
-step "Configuring Dock"
-bash "$DOTFILES/dock.sh"
-
-# Symlink so edits made on the machine land back in this repo.
-link() {
-  local src="$DOTFILES/$1" dst="$HOME/$2"
-  mkdir -p "$(dirname "$dst")"
-  if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
+link_config() {
+  local source="$DOTFILES/$1" target="$CONFIG_HOME/$2" backup
+  mkdir -p "$(dirname "$target")"
+  if [[ -L "$target" && "$(readlink "$target")" == "$source" ]]; then
     return
   fi
-  if [[ -e "$dst" || -L "$dst" ]]; then
-    local aside
-    aside="$dst.pre-dotfiles.$(date +%Y%m%d%H%M%S)"
-    mv "$dst" "$aside"
-    echo "moved existing $dst to $aside"
+  if [[ -e "$target" || -L "$target" ]]; then
+    backup="$(mktemp -d "${target}.pre-dotfiles.XXXXXX")"
+    mv "$target" "$backup/original"
+    printf 'Backed up %s to %s/original\n' "$target" "$backup"
   fi
-  ln -s "$src" "$dst"
-  echo "linked $dst"
+  ln -s "$source" "$target"
+  printf 'Linked %s\n' "$target"
 }
 
-step "Linking config"
-link zellij/config.kdl .config/zellij/config.kdl
-link ghostty/config .config/ghostty/config
-
-step "Mapping Caps Lock to Escape"
-agent="com.dgcnz.caps-to-escape"
-domain="gui/$(id -u)"
-if launchctl print "$domain/$agent" >/dev/null 2>&1; then
-  launchctl bootout "$domain/$agent"
+link_config ghostty/config ghostty/config
+link_config zellij/config.kdl zellij/config.kdl
+mkdir -p "$CONFIG_HOME/nvim" "$HOME/Pictures/Screenshots"
+# Clone only into a missing or empty directory; preserve existing Neovim setup.
+if [[ -z "$(ls -A "$CONFIG_HOME/nvim")" ]]; then
+  git clone https://github.com/dgcnz/kickstart.nvim.git "$CONFIG_HOME/nvim"
+  git -C "$CONFIG_HOME/nvim" remote set-url --push origin git@github.com:dgcnz/kickstart.nvim.git
+  git -C "$CONFIG_HOME/nvim" remote add upstream https://github.com/nvim-lua/kickstart.nvim.git
 fi
-link "launchagents/$agent.plist" "Library/LaunchAgents/$agent.plist"
-launchctl bootstrap "$domain" "$HOME/Library/LaunchAgents/$agent.plist"
-
-# Generated rather than versioned: lfs and nbdime write their own blocks.
-step "Configuring git"
-git config --global user.name "Diego Canez"
-git config --global user.email "canezdiego@gmail.com"
-git lfs install
-nbdime config-git --enable --global
-ignore="$HOME/.config/git/ignore"
-mkdir -p "$(dirname "$ignore")"
-touch "$ignore"
-grep -qxF '**/.claude/settings.local.json' "$ignore" ||
-  echo '**/.claude/settings.local.json' >>"$ignore"
-
-# Cloned over https because there is no GitHub ssh key yet on a new machine;
-# pushes still go over ssh once one is added.
-if [[ ! -d "$HOME/.config/nvim" ]]; then
-  step "Cloning neovim config"
-  git clone https://github.com/dgcnz/kickstart.nvim.git "$HOME/.config/nvim"
-  git -C "$HOME/.config/nvim" remote set-url --push origin git@github.com:dgcnz/kickstart.nvim.git
-  git -C "$HOME/.config/nvim" remote add upstream https://github.com/nvim-lua/kickstart.nvim.git
-fi
-
-if ! command -v claude >/dev/null 2>&1 && [[ ! -x "$HOME/.local/bin/claude" ]]; then
-  step "Installing Claude Code"
-  curl -fsSL https://claude.ai/install.sh | bash
-fi
+# Link Niri last: an active session reloads it immediately.
+link_config niri/config.kdl niri/config.kdl
 
 cat <<'MSG'
 
-==> Done. Left for you, on purpose:
+Done. Log out and select Niri at login (Plasma remains available).
+If already in Niri, log out and back in to start notifications and idle locking.
 
-  Shell: add these to your shell's startup file
-    export EDITOR=nvim VISUAL=nvim      # zellij's scrollback editor needs this
-    export PATH="$HOME/.local/bin:$PATH"
-    fzf keybindings: see `fzf --help` for your shell's init line
+Super+T: Ghostty     Super+D: launcher       Super+Q: close window
+Super+H/J/K/L: focus Super+Shift+F: fullscreen Super+Shift+/: shortcut help
+Super+Alt+L: lock    Super+Shift+E: log out
 
-  SSH: copy ~/.ssh from the old Mac, or make new keys and register them
-       with GitHub, the clusters and the VPS
-
-  Log in: gh auth login, flyctl auth login, claude, codex
-
-  Neovim: open nvim once so lazy.nvim installs the plugins
+Shell setup is left to you: export EDITOR=nvim VISUAL=nvim
+Slack and your browser are not installed by this script; use your existing apps.
+Check audio, Slack calls/screen sharing, and locking after login.
+Existing configs are saved beside their replacements in .pre-dotfiles directories.
 MSG
