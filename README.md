@@ -47,7 +47,8 @@ Niri config is based on the installed 26.04 defaults, with Ghostty and its help
 label corrected, no Waybar autostart, notifications, and locking after ten idle
 minutes and before sleep. Monitor and GPU selection remain automatic: this PC's
 AMD iGPU drives the display and NVIDIA is used for compute. No NVIDIA workarounds
-are applied. Caps Lock and other keyboard mappings remain at system defaults.
+are applied. Caps Lock maps to Escape; the original Escape key still works. Other keyboard
+mappings remain at system defaults.
 
 Ghostty uses Pencil Light, SauceCodePro Nerd Font, and size 13; Zellij uses
 Pencil Light with startup tips disabled. Zellij is not launched automatically.
