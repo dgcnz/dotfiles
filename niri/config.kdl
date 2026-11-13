@@ -355,8 +355,8 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: Ghostty" { spawn "ghostty"; }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+Space hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Super+Ctrl+Q hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -390,7 +390,11 @@ binds {
     // or do a four-finger swipe up on a touchpad.
     Mod+O repeat=false { toggle-overview; }
 
+    Mod+W repeat=false { close-window; }
     Mod+Q repeat=false { close-window; }
+    Mod+Tab { focus-window-previous; }
+    Ctrl+Left { focus-workspace-up; }
+    Ctrl+Right { focus-workspace-down; }
     Mod+Shift+Q repeat=false { close-window; }
 
     Mod+Left  { focus-column-left; }
@@ -552,7 +556,7 @@ binds {
     Mod+Ctrl+R { reset-window-height; }
 
     Mod+F { maximize-column; }
-    Mod+Shift+F { fullscreen-window; }
+    Mod+Ctrl+F { fullscreen-window; }
 
     // While maximize-column leaves gaps and borders around the window,
     // maximize-window-to-edges doesn't: the window expands to the edges of the screen.
@@ -562,9 +566,9 @@ binds {
 
     // Expand the focused column to space not taken up by other fully visible columns.
     // Makes the column "fill the rest of the space".
-    Mod+Ctrl+F { expand-column-to-available-width; }
+    Mod+Alt+F { expand-column-to-available-width; }
 
-    Mod+C { center-column; }
+    Mod+Alt+C { center-column; }
 
     // Center all fully visible columns on screen.
     Mod+Ctrl+C { center-visible-columns; }
@@ -585,13 +589,13 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     // Move the focused window between the floating and the tiling layout.
-    Mod+V       { toggle-window-floating; }
+    Mod+Alt+V   { toggle-window-floating; }
     Mod+Shift+V { switch-focus-between-floating-and-tiling; }
 
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
     // rather than stacked on top of each other.
-    Mod+W { toggle-column-tabbed-display; }
+    Mod+Alt+W { toggle-column-tabbed-display; }
 
     // Actions to switch layouts.
     // Note: if you uncomment these, make sure you do NOT have
@@ -627,3 +631,6 @@ binds {
 // Notifications and screen locking (after 10 minutes and before sleep).
 spawn-at-startup "mako"
 spawn-at-startup "swayidle" "-w" "timeout" "600" "swaylock -f" "before-sleep" "swaylock -f"
+
+// App-aware clipboard remapping; stopped with the graphical session.
+spawn-at-startup "systemctl" "--user" "start" "xremap.service"

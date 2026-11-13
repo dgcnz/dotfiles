@@ -2,3 +2,9 @@ theme = Pencil Light
 font-family = "SauceCodePro Nerd Font"
 font-style-bold = SemiBold
 font-size = 13
+
+# macOS-style clipboard shortcuts (Super is the Windows/Command key).
+keybind = super+c=copy_to_clipboard
+keybind = super+v=paste_from_clipboard
+
+command = /usr/bin/fish

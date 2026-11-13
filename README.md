@@ -30,16 +30,19 @@ out and back in to start startup services. There is no panel; use the launcher.
 | Shortcut | Action |
 | --- | --- |
 | Super+T | Ghostty |
-| Super+D | App launcher |
+| Super+Space | App launcher |
 | Super+H/J/K/L or arrow keys | Focus windows/columns |
 | Super+Ctrl+H/J/K/L | Move windows/columns |
 | Super+1…9 | Focus workspace |
-| Super+Q or Super+Shift+Q | Close window |
+| Super+W or Super+Q | Close window (not all windows of an application) |
+| Super+Tab | Toggle between the two most recently focused windows |
+| Ctrl+Left/Right | Previous/next workspace |
+| Super+C / Super+V | Copy/paste across apps via xremap; terminal exception preserves Ctrl+C |
 | Super+F | Toggle full-width column |
-| Super+Shift+F | Toggle fullscreen |
+| Super+Ctrl+F | Toggle fullscreen |
 | Super+R | Cycle column width |
 | Super+O | Overview |
-| Super+Alt+L | Lock screen |
+| Super+Ctrl+Q | Lock screen |
 | Super+Shift+/ | Shortcut help |
 | Super+Shift+E | Log out (confirmation) |
 
@@ -67,3 +70,22 @@ when saved; startup-service changes require a new session.
 
 The inherited `Brewfile`, `dock.sh`, `bootstrap-macos.sh`, and `launchagents/`
 are retained as references from the Mac branch and are not used by Linux setup.
+
+Window actions moved to free familiar application shortcuts: Super+Alt+C centers a column, Super+Alt+V toggles floating, Super+Alt+W toggles column tabs, and Super+Alt+F expands a column to available width. Other applications keep their own tab shortcuts; clipboard remapping is configured below.
+
+## Global clipboard shortcuts
+
+The setup script installs xremap 0.15.18 (official Niri release binary) at `~/.local/bin/xremap`.
+Its configuration and user service are symlinked from this checkout. Run
+`./scripts/setup-macos-shortcuts.sh` as your normal user, then reboot.
+This grants your account input-group access to keyboard events and enables uinput.
+Niri starts the user service; it stops with the graphical session. Only exact
+Super+C/V are translated, leaving physical Ctrl+C and other Niri shortcuts alone.
+To disable for this session: `systemctl --user stop xremap.service`.
+Remove the xremap spawn-at-startup line from Niri to disable future starts.
+
+## Shell
+
+Ghostty opens Fish. `fish/conf.d/work.fish` adds `~/.local/bin` to PATH and sets
+EDITOR and VISUAL to Neovim. Bootstrap links it into the Fish configuration.
+To change the account login shell too, run `chsh -s /usr/bin/fish`.

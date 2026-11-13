@@ -1,0 +1,14 @@
+# Exact matches preserve Niri shortcuts that also include Ctrl/Alt/Shift.
+keymap:
+  - name: Terminal clipboard
+    exact_match: true
+    application:
+      only: [com.mitchellh.ghostty, Alacritty, org.alacritty.Alacritty, foot, footclient, kitty, org.wezfurlong.wezterm, org.kde.konsole, org.gnome.Terminal]
+    remap:
+      Super-c: Ctrl-Shift-c
+      Super-v: Ctrl-Shift-v
+  - name: Desktop clipboard
+    exact_match: true
+    remap:
+      Super-c: Ctrl-c
+      Super-v: Ctrl-v

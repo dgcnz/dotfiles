@@ -1,0 +1,9 @@
+[Unit]
+Description=macOS-style clipboard shortcuts in Niri
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/xremap --desktop niri --no-window-logging --watch=config,device %h/.config/xremap/config.yml
+Restart=on-failure
+RestartSec=3

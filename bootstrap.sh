@@ -15,7 +15,7 @@ sudo pacman -Syu --needed \
   xdg-desktop-portal-gtk xdg-desktop-portal-gnome \
   pipewire wireplumber playerctl brightnessctl \
   ttf-sourcecodepro-nerd neovim zellij fzf ripgrep bat lazygit \
-  git github-cli git-lfs base-devel wl-clipboard
+  git github-cli git-lfs base-devel wl-clipboard curl unzip fish
 
 niri validate --config "$DOTFILES/niri/config.kdl"
 
@@ -34,6 +34,7 @@ link_config() {
   printf 'Linked %s\n' "$target"
 }
 
+link_config fish/conf.d/work.fish fish/conf.d/work.fish
 link_config ghostty/config ghostty/config
 link_config zellij/config.kdl zellij/config.kdl
 mkdir -p "$CONFIG_HOME/nvim" "$HOME/Pictures/Screenshots"
@@ -51,11 +52,14 @@ cat <<'MSG'
 Done. Log out and select Niri at login (Plasma remains available).
 If already in Niri, log out and back in to start notifications and idle locking.
 
-Super+T: Ghostty     Super+D: launcher       Super+Q: close window
-Super+H/J/K/L: focus Super+Shift+F: fullscreen Super+Shift+/: shortcut help
-Super+Alt+L: lock    Super+Shift+E: log out
+Super+T: Ghostty      Super+Space: launcher     Super+W: close window
+Super+H/J/K/L: focus  Super+Ctrl+F: fullscreen  Super+Shift+/: shortcut help
+Super+Ctrl+Q: lock    Super+Shift+E: log out
 
-Shell setup is left to you: export EDITOR=nvim VISUAL=nvim
+For global macOS-style copy/paste, run ./scripts/setup-macos-shortcuts.sh,
+then reboot. This grants your account input-device access.
+
+Ghostty opens Fish. To also change your login shell, run: chsh -s /usr/bin/fish
 Slack and your browser are not installed by this script; use your existing apps.
 Check audio, Slack calls/screen sharing, and locking after login.
 Existing configs are saved beside their replacements in .pre-dotfiles directories.
